@@ -40,24 +40,17 @@ setSignalPins() #set the pins as inputs to raspberry pi channel
 machineType=getMachineType()
 liveStatusInitialRow(machineId,machineType,liveStatusCodes['machineIdle'],COLOR,SIGNAL_NAME) # insert a liveStatus row if doesnot exits
 
-
 #TEMP PRODUCTION ARRARY STORE LIVE SIGNAL VALUES SO THAT IT CAN BE COMPARED WITH ACTUAL PRODUCTION ARRAY
 tempProductionArray=[]
 
-
 #STORES WHETHER THE PROCESS IS OFF/ON  EX:CYCLEON/CYCLEOFF
 process=""
-
-
 
 #*****************************MAIN PROGRAM STARTS************************************************
 #PROGRAM CONTAINS A CLASS WHICH HAS A CONSTRUCTOR WHICH WILL BE CALLED WHEN AN OBJECT IS CONSTRUCTED
 #FOR EVERY SIGNAL 
 print("****************************MAIN PROGRAM STARTED*********************************")
-
-
 class getCurrentStatus:
-
 
    #Constructor that will be called when an object is created
    def __init__(self,InputPin,processOn,processOff):
@@ -67,13 +60,11 @@ class getCurrentStatus:
 
          #Read signal from the Raspberry pi 
          SignalStatus=GPIO.input(InputPin)
-
+         
          #check the time at which this signal is raised
          timeObj = datetime.now()
          timeStamp=timeObj.strftime("%Y/%m/%d %H:%M:%S")
-
-
-
+         
          #machine on conditions
          if(flag == 0 and SignalStatus==1):
              process=processOn
@@ -81,7 +72,6 @@ class getCurrentStatus:
              print(timeStamp)
              setFlagStatus(process,1)
              insertSignalToLocalDb(machineId,process,timeStamp)
-
              if process=="alarmON":
                  updateLiveSignal("Alarm ON")
                  updateLiveStatus(liveStatusCodes['alarm'],"alarmON","red")
@@ -99,9 +89,7 @@ class getCurrentStatus:
                  updateLiveStatus(liveStatusCodes['cycle'],"cycleON","green")                          
              else:
                  pass
-
-
-
+               
          #machine off condition
          if(flag == 1 and SignalStatus == 0):
              process=processOff
@@ -121,7 +109,6 @@ class getCurrentStatus:
              else:
                   pass
 
-
    def ProductionOk():
       data=curs.execute("SELECT MAX(id) FROM production")
       lastId=curs.fetchone()[0]
@@ -133,8 +120,6 @@ class getCurrentStatus:
           print("updated status  1 to last production job ")
       except:   
           print("failed to update status  1 to last production job") 
-
-
 
 if __name__ == "__main__":
       
