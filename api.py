@@ -1,5 +1,4 @@
 
-
 from flask import Flask,request,jsonify
 
 from flask import render_template,redirect,url_for,session
@@ -78,7 +77,7 @@ class pinout(db.Model):
 
       signalName=db.Column(db.String)
 
-      pinNumber=db.Column(db.String)
+      pinNumber=db.Column(db.INTEGER)
 
       status=db.Column(db.String)
 
@@ -208,8 +207,10 @@ class energyMeter(db.Model):
 
       energy=db.Column(db.String)
 
-
-
+class serverConf(db.Model):
+   id=db.Column(db.INT,primary_key=True)
+   endpoint=db.Column(db.String)
+  
 
 class networkConf(db.Model):
       id=db.Column(db.INT,primary_key=True)
@@ -265,13 +266,9 @@ def login():
 
    for row in query.all():  
      if(row.id==1):
-
             print("Shift 1")
-
             resultData['Shift']=row.shift 
-
             
-
      elif(row.id==2):
 
          print("Shift 2")
@@ -420,11 +417,7 @@ def loadScreen():
          data['machineId']=result.machineId
          data['idleTimeout'] = result.idleTimeout
          data['batchSize']= result.batchSize
-         session['machineId'] = result.machineId
-         session['idleTimeout'] = result.idleTimeout
-         session['batchSize'] = result.batchSize
          holdingPin = result.holdingRelay
-         session['machineBypass'] = result.machineBypass
       else:
          print("no other settings data in database")
 
@@ -583,7 +576,7 @@ def hold_machine():
          # holding the machine
           print("holding machine....")
           GPIO.output(holdingPin,False)
-          #rpi.io[holdingPin]=False
+          
 
         
 
@@ -591,7 +584,7 @@ def hold_machine():
             # holding the machine
             print("releasing machine....")
             GPIO.output(holdingPin,True)
-            #rpi.io[holdingPin]=True
+         
 
       else:
 
@@ -601,14 +594,14 @@ def hold_machine():
          if(state=='Hold'):
            # holding the machine
             print("holding machine....")
-            #rpi.io[holdingPin]=True
+           
 
         
 
          elif(state=='Release'):
             # holding the machine
             print("releasing machine....")   
-            #rpi.io[holdingPin]=False
+            
 
          else:
 

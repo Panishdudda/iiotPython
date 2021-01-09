@@ -1,11 +1,12 @@
-from package import curs,conn
 
-def insertSignalToLocalDb(machineId,process,timeStamp):
+def insertSignalToLocalDb(self,machineId,process,timeStamp):
+ 
+      
       sql="INSERT INTO signals(machineId,process,timeStamp) VALUES(?,?,?)"               
       values=(machineId,process,timeStamp)
       try:
-          if(curs.execute(sql,values)):
-              conn.commit()
+          if(self.cursor.execute(sql,values)):
+              self.connection.commit()
               print("successfully inserted into local database")
       except:
           print("unable to insert into local database")

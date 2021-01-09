@@ -1,6 +1,16 @@
-from package import cycleflag,spindleflag,machineflag,m30flag,resetflag,emergencyflag,alarmflag,runoutnotokflag
+#global FLAG VARIABLES WHICH KEEPS A TRACK OF STATUS OF THE EVERY SIGNAL , WHETHER THE SIGNAL IS ON OR OFF
+#FLAG = 0  SIGNAL IS OFF 
+#FLAG = 1 SIGNAL IS ON
+cycleflag=0
+spindleflag=0
+resetflag=0
+emergencyflag=0
+alarmflag=0
+runoutnotokflag=0
+machineflag=0
+m30flag=0
 
-def getFlagStatus(self,process):
+def getFlagStatus(process):
           if(process=="cycleON" or process=="cycleOFF"):
               return cycleflag
           elif(process=="spindleON" or process=="spindleOFF"):
